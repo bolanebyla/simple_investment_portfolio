@@ -1,0 +1,1 @@
+from .api import investment_portfolio_api_urlpatterns

@@ -92,12 +92,6 @@ ruff check --fix .
 
 ### Установка pre-commit
 
-1. Установите pre-commit:
-```bash
-uv pip install pre-commit
-```
-
-2. Установите git hooks:
 ```bash
 pre-commit install
 ```
