@@ -1,1 +1,3 @@
-from .investment_portfolio import InvestmentPortfolio
+from investment_portfolio.domain.entities.investment_portfolio import (
+    InvestmentPortfolio,
+)

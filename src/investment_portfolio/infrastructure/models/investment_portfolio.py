@@ -4,7 +4,8 @@ from django.db import models
 
 from ..app_label import app_label
 
-class InvestmentPortfolio(models.Model):
+
+class InvestmentPortfolioModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField()
 

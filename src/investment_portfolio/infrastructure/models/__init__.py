@@ -1,1 +1,1 @@
-from .investment_portfolio import InvestmentPortfolio
+from .investment_portfolio import InvestmentPortfolioModel
