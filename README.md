@@ -5,6 +5,7 @@
 ## 🎯 Основные функции
 
 - Создание инвестиционного портфеля
+- Отправка приветственного email при создании первого инвестиционного портфеля пользователем
 - Добавление в портфель ценных бумаг по тикету (TODO)
 - Просмотр стоимости портфеля (TODO)
 
@@ -14,7 +15,7 @@
 - **Python 3.13+**
 - **[Django](https://www.djangoproject.com/)**
 - **[Django rest framework](https://www.django-rest-framework.org/)**
-- **[Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html) - обработка асинхронных задач** (TODO)
+- **[Celery](https://docs.celeryq.dev/en/stable/getting-started/introduction.html) - обработка асинхронных задач**
 - **[Dishka](https://github.com/just-work/dishka)** - контейнер внедрения зависимостей
 - **[Prometheus](https://prometheus.io/)** - мониторинг метрик (TODO)
 - **[Gunicorn](https://gunicorn.org/)** - WSGI-сервер (TODO)
