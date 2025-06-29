@@ -14,9 +14,9 @@
 - **Python 3.13+**
 - **[Django](https://www.djangoproject.com/)**
 - **[Django rest framework](https://www.django-rest-framework.org/)**
-- **[Dishka](https://github.com/just-work/dishka)** - контейнер внедрения зависимостей (TODO)
+- **[Dishka](https://github.com/just-work/dishka)** - контейнер внедрения зависимостей
 - **[Prometheus](https://prometheus.io/)** - мониторинг метрик (TODO)
-- **[Uvicorn](https://www.uvicorn.org/)** - ASGI-сервер (TODO)
+- **[Gunicorn](https://gunicorn.org/)** - WSGI-сервер (TODO)
 - **[UV](https://github.com/astral-sh/uv)** - менеджер пакетов Python 
 
 ## 🏗 Архитектура
@@ -24,7 +24,7 @@
 Проект построен с использованием следующих архитектурных принципов:
 
 - **Чистая архитектура** - разделение на слои (доменный, прикладной, инфраструктурный)
-- **Dependency Injection** (TODO)
+- **Dependency Injection**
 - **Domain-Driven Design**
 - **REST API**
 
@@ -53,7 +53,7 @@ DEBUG=True # запуск в режиме разработки
 python manage.py runserver
 ```
 
-uvicorn (TODO)
+gunicorn (TODO)
 ```bash
 ```
 
