@@ -8,7 +8,6 @@ class CreateUserInvestmentPortfolioUseCase:
     def __init__(self, investment_portfolio_repo: InvestmentPortfolioRepo):
         self._investment_portfolio_repo = investment_portfolio_repo
 
-    # TODO: async
     def execute(self) -> None:
         investment_portfolio = InvestmentPortfolio(
             id=uuid.uuid4(),
