@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 import os
+import platform
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -40,7 +41,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_yasg",
-    "framework",
     "investment_portfolio.infrastructure",
 ]
 
@@ -133,3 +133,18 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+# Celery broker settings - RabbitMQ
+CELERY_BROKER_URL = "amqp://guest:guest@localhost:5672//"
+CELERY_RESULT_BACKEND = "rpc://"
+
+# Windows-specific settings
+if platform.system().lower() == "windows":
+    # Use threads pool instead of processes on Windows
+    CELERY_TASK_ALWAYS_EAGER = False
+    CELERY_WORKER_POOL = "threads"
+    CELERY_WORKER_CONCURRENCY = 4
+    # Disable prefork pool on Windows
+    CELERY_WORKER_PREFETCH_MULTIPLIER = 1
+    # Use eventlet or threads for Windows compatibility
+    CELERY_WORKER_POOL_RESTARTS = True
