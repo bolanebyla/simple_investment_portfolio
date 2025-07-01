@@ -21,3 +21,4 @@ class InvestmentPortfolio(BaseEntity):
 
     id: UUID
     title: str
+    user_id: int
