@@ -1,13 +1,15 @@
 from dishka import Provider, Scope, provide
 
+from investment_portfolio.application.interfaces import EmailSender
 from investment_portfolio.infrastructure.email.senders import (
-    FirstUserPortfolioCreatedSender,
+    EmailSenderImpl,
 )
 
 
 class EmailProvider(Provider):
     scope = Scope.APP
 
-    first_user_portfolio_created_sender = provide(
-        FirstUserPortfolioCreatedSender
+    email_sender = provide(
+        EmailSenderImpl,
+        provides=EmailSender,
     )

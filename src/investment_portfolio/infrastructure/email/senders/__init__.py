@@ -1,1 +1,1 @@
-from .first_user_portfolio_created_sender import FirstUserPortfolioCreatedSender
+from .email_sender import EmailSenderImpl
