@@ -27,12 +27,11 @@ from investment_portfolio.infrastructure.urls import (
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="Snippets API",
+        title="Simple investment portfolio API",
         default_version="v1",
-        description="Test description",
-        terms_of_service="https://www.google.com/policies/terms/",
-        contact=openapi.Contact(email="contact@snippets.local"),
-        license=openapi.License(name="BSD License"),
+        description="Демонстрационный проект, "
+        "написанный на Django с использованием "
+        "чистой архитектуры и DDD",
     ),
     public=True,
     permission_classes=[permissions.AllowAny],
