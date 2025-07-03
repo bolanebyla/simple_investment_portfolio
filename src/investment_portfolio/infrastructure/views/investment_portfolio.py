@@ -5,9 +5,11 @@ from rest_framework.views import APIView
 from framework.api import ValidationErrorSerializer, validation_error_response
 from framework.di import DiRequest
 from investment_portfolio.application.use_cases import (
+    AddAssetToInvestmentPortfolioUseCase,
     CreateUserInvestmentPortfolioUseCase,
 )
 from investment_portfolio.infrastructure.views.serializers import (
+    AddAssetToInvestmentPortfolioSerializer,
     CreateUserInvestmentPortfolioSerializer,
 )
 
@@ -21,15 +23,38 @@ class InvestmentPortfolioView(APIView):
         },
     )
     def post(self, request: DiRequest):
-        create_serializer = CreateUserInvestmentPortfolioSerializer(
+        serializer = CreateUserInvestmentPortfolioSerializer(
             data=request.data,
         )
-        if create_serializer.is_valid():
+        if serializer.is_valid():
             use_case = request.container.get(
                 CreateUserInvestmentPortfolioUseCase
             )
-            create_dto = create_serializer.save()
-            use_case.execute(create_dto=create_dto)
+            dto = serializer.save()
+            use_case.execute(create_dto=dto)
             return Response()
 
-        return validation_error_response(errors=create_serializer.errors)
+        return validation_error_response(errors=serializer.errors)
+
+
+class AddAssetToInvestmentPortfolioView(APIView):
+    @swagger_auto_schema(
+        request_body=AddAssetToInvestmentPortfolioSerializer,
+        responses={
+            200: None,
+            400: ValidationErrorSerializer(),
+        },
+    )
+    def post(self, request: DiRequest):
+        serializer = AddAssetToInvestmentPortfolioSerializer(
+            data=request.data,
+        )
+        if serializer.is_valid():
+            use_case = request.container.get(
+                AddAssetToInvestmentPortfolioUseCase
+            )
+            dto = serializer.save()
+            use_case.execute(add_dto=dto)
+            return Response()
+
+        return validation_error_response(errors=serializer.errors)

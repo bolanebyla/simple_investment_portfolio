@@ -1,3 +1,7 @@
+from .add_asset_to_investment_portfolio import (
+    AddAssetToInvestmentPortfolioDto,
+    AddAssetToInvestmentPortfolioUseCase,
+)
 from .create_user_investment_portfolio import (
     CreateUserInvestmentPortfolioDto,
     CreateUserInvestmentPortfolioUseCase,

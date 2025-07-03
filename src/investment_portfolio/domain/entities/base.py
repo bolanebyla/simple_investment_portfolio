@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from uuid import UUID
 
 from investment_portfolio.domain.domain_events import (
     BaseDomainEvent,
@@ -7,6 +8,8 @@ from investment_portfolio.domain.domain_events import (
 
 @dataclass
 class BaseEntity:
+    id: UUID
+
     __domain_events: list[BaseDomainEvent] = field(default_factory=list)
 
     def _add_domain_event(self, event):
