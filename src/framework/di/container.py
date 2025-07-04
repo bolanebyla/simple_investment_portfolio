@@ -3,6 +3,7 @@ from dishka.integrations.celery import setup_dishka
 
 from framework import celery_app
 from framework.di.providers import (
+    DbModelMappersProvider,
     DBRepositoriesProvider,
     EmailProvider,
     EventDispatchersProvider,
@@ -11,6 +12,7 @@ from framework.di.providers import (
 
 container = make_container(
     DBRepositoriesProvider(),
+    DbModelMappersProvider(),
     UseCasesProvider(),
     EventDispatchersProvider(),
     EmailProvider(),

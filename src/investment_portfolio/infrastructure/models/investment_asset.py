@@ -19,6 +19,7 @@ class InvestmentAssetModel(models.Model):
     investment_portfolio = models.ForeignKey(
         InvestmentPortfolioModel,
         on_delete=models.CASCADE,
+        related_name="assets",
     )
 
     ticket = models.CharField(max_length=20)

@@ -9,37 +9,56 @@ from investment_portfolio.infrastructure.models import (
     InvestmentAssetModel,
     InvestmentPortfolioModel,
 )
+from investment_portfolio.infrastructure.repositories.mappers import (
+    InvestmentAssetModelMapper,
+    InvestmentPortfolioModelMapper,
+)
 
 
 class InvestmentPortfolioRepoImpl(InvestmentPortfolioRepo):
+    def __init__(
+        self,
+        investment_portfolio_model_mapper: InvestmentPortfolioModelMapper,
+        investment_asset_model_mapper: InvestmentAssetModelMapper,
+    ):
+        self._investment_portfolio_model_mapper = (
+            investment_portfolio_model_mapper
+        )
+        self._investment_asset_model_mapper = investment_asset_model_mapper
+
     def add(self, investment_portfolio: InvestmentPortfolio) -> None:
+        investment_portfolio_model_defaults = self._investment_portfolio_model_mapper.map_entity_to_model_defaults(
+            entity=investment_portfolio,
+        )
+
         # Создаем или обновляем портфель
         db_investment_portfolio, created = (
             InvestmentPortfolioModel.objects.update_or_create(
                 id=investment_portfolio.id,
-                defaults={
-                    "title": investment_portfolio.title,
-                    "user_id": investment_portfolio.user_id,
-                },
+                defaults=investment_portfolio_model_defaults,
             )
         )
 
-        # Сохраняем вложенные активы
-        for asset in investment_portfolio.assets:
-            InvestmentAssetModel.objects.update_or_create(
-                id=asset.id,
-                defaults={
-                    "ticket": asset.ticket,
-                    "name": asset.name,
-                    "investment_portfolio": db_investment_portfolio,
-                },
+        if investment_portfolio.assets:
+            asset_models = (
+                self._investment_asset_model_mapper.map_entities_to_models(
+                    entities=investment_portfolio.assets
+                )
+            )
+            for asset_model in asset_models:
+                asset_model.investment_portfolio = db_investment_portfolio
+
+            InvestmentAssetModel.objects.bulk_create(
+                asset_models,
+                update_conflicts=True,
+                unique_fields=["id"],
+                update_fields=["ticket", "name"],  # TODO: ? вынести в маппер
             )
 
-        # Удаляем активы, которые больше не находятся в портфеле
         current_asset_ids = {asset.id for asset in investment_portfolio.assets}
-        InvestmentAssetModel.objects.filter(
-            investment_portfolio=db_investment_portfolio
-        ).exclude(id__in=current_asset_ids).delete()
+        db_investment_portfolio.assets.exclude(
+            id__in=current_asset_ids
+        ).delete()
 
     def get_by_id_and_user_id(
         self,
@@ -54,26 +73,6 @@ class InvestmentPortfolioRepoImpl(InvestmentPortfolioRepo):
         except InvestmentPortfolioModel.DoesNotExist:
             return None
 
-        # Загружаем связанные активы
-        db_assets = InvestmentAssetModel.objects.filter(
-            investment_portfolio=db_investment_portfolio
-        )
-
-        # TODO: вынести в маппер
-        # Создаем доменные объекты активов
-        assets = []
-        for db_asset in db_assets:
-            asset = InvestmentAsset(
-                id=db_asset.id,
-                ticket=db_asset.ticket,
-                name=db_asset.name,
-            )
-            assets.append(asset)
-
-        # TODO: вынести в маппер
-        return InvestmentPortfolio(
-            id=db_investment_portfolio.id,
-            title=db_investment_portfolio.title,
-            user_id=db_investment_portfolio.user_id,
-            assets=assets,
+        return self._investment_portfolio_model_mapper.map_model_to_entity(
+            model=db_investment_portfolio,
         )
