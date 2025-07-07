@@ -1,2 +1,3 @@
 from .email_sender import EmailSender
 from .event_dispatcher import EventDispatcher
+from .investment_portfolio_read_repo import InvestmentPortfolioReadRepo

@@ -3,6 +3,7 @@ from dishka import Provider, Scope, provide
 from investment_portfolio.application.use_cases import (
     AddAssetToInvestmentPortfolioUseCase,
     CreateUserInvestmentPortfolioUseCase,
+    GetUserInvestmentPortfolioUseCase,
     SendFirstUserPortfolioCreatedEmailUseCase,
 )
 
@@ -21,3 +22,5 @@ class UseCasesProvider(Provider):
     add_asset_to_investment_portfolio = provide(
         AddAssetToInvestmentPortfolioUseCase,
     )
+
+    get_user_investment_portfolio = provide(GetUserInvestmentPortfolioUseCase)

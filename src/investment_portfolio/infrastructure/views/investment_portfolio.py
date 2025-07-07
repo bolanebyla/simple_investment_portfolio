@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -7,6 +9,8 @@ from framework.di import DiRequest
 from investment_portfolio.application.use_cases import (
     AddAssetToInvestmentPortfolioUseCase,
     CreateUserInvestmentPortfolioUseCase,
+    GetUserInvestmentPortfolioRequestDto,
+    GetUserInvestmentPortfolioUseCase,
 )
 from investment_portfolio.infrastructure.views.serializers import (
     AddAssetToInvestmentPortfolioSerializer,
@@ -35,6 +39,20 @@ class InvestmentPortfolioView(APIView):
             return Response()
 
         return validation_error_response(errors=serializer.errors)
+
+    def get(self, request: DiRequest):
+        # TODO: вынести в серилизстор
+        request_dto = GetUserInvestmentPortfolioRequestDto(
+            investment_portfolio_id=UUID(
+                "c1825398-1877-4813-90e2-d7ae823c89cf"
+            ),
+            user_id=1,
+        )
+
+        use_case = request.container.get(GetUserInvestmentPortfolioUseCase)
+        # TODO: вынести в серилизстор
+        result_dto = use_case.execute(request_dto=request_dto)
+        return Response(str(result_dto))
 
 
 class AddAssetToInvestmentPortfolioView(APIView):

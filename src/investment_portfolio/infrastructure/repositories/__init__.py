@@ -1,1 +1,2 @@
+from .investment_portfolio_read_repo import InvestmentPortfolioReadRepoImpl
 from .investment_portfolio_repo import InvestmentPortfolioRepoImpl
